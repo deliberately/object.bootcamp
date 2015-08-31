@@ -10,7 +10,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./src/Example/bin") + Directory(configuration);
+var buildDir = Directory("./src/OO.Bootcamp/bin") + Directory(configuration);
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
