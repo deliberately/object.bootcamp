@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace OO.Bootcamp.Tests
 {
@@ -11,6 +10,13 @@ namespace OO.Bootcamp.Tests
         private readonly Chance oneInFour = new Chance(0.25);
         private readonly Chance oneInEight = new Chance(0.125);
         private readonly Chance threeInFour = new Chance(0.75);
+
+        [Test]
+        public void ShouldPreventInvalidChanceValues()
+        {
+            Assert.That(() => new Chance(1.1), Throws.ArgumentException);
+            Assert.That(() => new Chance(-0.1), Throws.ArgumentException);
+        }
 
         [Test]
         public void Should_understand_equal_probabilities()
