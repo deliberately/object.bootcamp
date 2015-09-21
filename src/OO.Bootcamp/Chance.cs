@@ -6,14 +6,14 @@ namespace OO.Bootcamp
     public class Chance
     {
         private readonly double fraction;
-        public static readonly Chance Always = new Chance(1);
+        public static readonly Chance Certain = new Chance(1);
 
         public Chance(double fraction)
         {
             this.fraction = fraction;
         }
 
-        public Chance Not => new Chance(Always.fraction - fraction);
+        public Chance Not => new Chance(Certain.fraction - fraction);
 
         public override bool Equals(object other)
         {
@@ -37,9 +37,22 @@ namespace OO.Bootcamp
             return new Chance(this.fraction * other.fraction);
         }
 
+        public static Chance operator -(Chance one, Chance other)
+        {
+            return new Chance(one.fraction - other.fraction);
+        }
+
         public override string ToString()
         {
             return fraction.ToString();
+        }
+                            
+        public Chance Or(Chance other)
+        {
+            /** Implementaion of De Morgan's Law
+             * <see>https://en.wikipedia.org/wiki/De_Morgan%27s_laws</see> 
+             **/
+            return this.Not.And(other.Not).Not; 
         }
     }
 }

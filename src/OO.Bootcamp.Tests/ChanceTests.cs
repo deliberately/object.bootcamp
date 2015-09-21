@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace OO.Bootcamp.Tests
 {
-    // Understands the correct behaviour of Chance
+    // Understands the probability of an event occurring
     [TestFixture]
     public class ChanceTests
     {
@@ -33,7 +33,20 @@ namespace OO.Bootcamp.Tests
         {
             Assert.AreEqual(oneInTwo.Not, oneInTwo);
             Assert.AreEqual(oneInFour.Not, threeInFour);
-        }    
+        }
+
+        [Test]
+        public void ShouldProvideAbilityToSubtractProbabilities()
+        {
+            Assert.AreEqual(Chance.Certain - oneInTwo, oneInTwo);
+            Assert.AreEqual(Chance.Certain - oneInFour, threeInFour);
+        }
+
+        [Test]
+        public void ShouldDetermineChanceOfOneOrAnotherEventOccuring()
+        {
+            Assert.AreEqual(oneInFour.Or(oneInFour), new Chance(0.4375));
+        }
     }
 
 }
