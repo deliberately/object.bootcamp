@@ -45,10 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultTests.cs" />
+    <Compile Include="ProbabilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OO.Bootcamp\OO.Bootcamp.csproj">
+      <Project>{bcbcb3cd-ca83-4521-b1e5-ea4ed412b9dd}</Project>
+      <Name>OO.Bootcamp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
