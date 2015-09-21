@@ -45,11 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultTests.cs" />
-    <Compile Include="ProbabilityTests.cs" />
+    <Compile Include="ChanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OO.Bootcamp\OO.Bootcamp.csproj">

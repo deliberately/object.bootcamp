@@ -3,24 +3,24 @@
 namespace OO.Bootcamp
 {
     // Understands the chance of something happening
-    public class Probability
+    public class Chance
     {
         private readonly double fraction;
-        public static readonly Probability Always = new Probability(1);
+        public static readonly Chance Always = new Chance(1);
 
-        public Probability(double fraction)
+        public Chance(double fraction)
         {
             this.fraction = fraction;
         }
 
-        public Probability Not => new Probability(Always.fraction - fraction);
+        public Chance Not => new Chance(Always.fraction - fraction);
 
         public override bool Equals(object other)
         {
-            return ReferenceEquals(this, other) || Equals(other as Probability);
+            return ReferenceEquals(this, other) || Equals(other as Chance);
         }
 
-        public bool Equals(Probability other)
+        public bool Equals(Chance other)
         {
             if (ReferenceEquals(other, null)) { return false; }
 
@@ -32,9 +32,9 @@ namespace OO.Bootcamp
             return fraction.GetHashCode();
         }
 
-        public Probability And(Probability other)
+        public Chance And(Chance other)
         {
-            return new Probability(this.fraction * other.fraction);
+            return new Chance(this.fraction * other.fraction);
         }
 
         public override string ToString()

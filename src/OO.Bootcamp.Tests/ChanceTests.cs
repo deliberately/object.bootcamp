@@ -3,14 +3,14 @@ using NUnit.Framework;
 
 namespace OO.Bootcamp.Tests
 {
-    // Understands the correct behaviour of Probability
+    // Understands the correct behaviour of Chance
     [TestFixture]
-    public class ProbabilityTests
+    public class ChanceTests
     {
-        private readonly Probability oneInTwo = new Probability(0.5);
-        private readonly Probability oneInFour = new Probability(0.25);
-        private readonly Probability oneInEight = new Probability(0.125);
-        private readonly Probability threeInFour = new Probability(0.75);
+        private readonly Chance oneInTwo = new Chance(0.5);
+        private readonly Chance oneInFour = new Chance(0.25);
+        private readonly Chance oneInEight = new Chance(0.125);
+        private readonly Chance threeInFour = new Chance(0.75);
 
         [Test]
         public void Should_understand_equal_probabilities()
