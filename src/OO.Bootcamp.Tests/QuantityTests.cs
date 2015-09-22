@@ -26,7 +26,7 @@ namespace OO.Bootcamp.Tests
         [Test]
         public void ShouldEnsureHashCodeIsEqualForTwoDifferentObjects()
         {
-            Assert.AreEqual(oneTeaspoon.GetHashCode(), oneTeaspoon.GetHashCode());
+            Assert.AreEqual(ImperialMeasure.Teaspoon.Amount(1).GetHashCode(), oneTeaspoon.GetHashCode());
         }
 
         [Test]
