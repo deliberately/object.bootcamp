@@ -3,7 +3,7 @@ using System;
 namespace OO.Bootcamp
 {
     // Understands the relationship between an amount and units of measurement
-    public class Quantity
+    public class Quantity : IComparable<Quantity>
     {
         private const double DoubleComparisonTolerance = 0.000001;
         private readonly double amount;
@@ -22,7 +22,7 @@ namespace OO.Bootcamp
 
         public bool Equals(Quantity other)
         {
-            if (ReferenceEquals(this, null)) { return false; }
+            if (ReferenceEquals(other, null)) { return false; }
 
             var convertedQuantity = other.In(this.unitOfMeasurement);
             return Math.Abs(this.amount - convertedQuantity.amount) < DoubleComparisonTolerance && this.unitOfMeasurement == convertedQuantity.unitOfMeasurement;
@@ -38,9 +38,23 @@ namespace OO.Bootcamp
             return new Quantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
         }
 
+        public int CompareTo(Quantity other)
+        {
+            Ensure.NotNull(other);
+            return amount.CompareTo(other.In(this.unitOfMeasurement).amount);
+        }
+
         public override string ToString()
         {
-            return String.Format("Quantity: {0}", amount);
+            return $"Quantity: {amount} {unitOfMeasurement}";
+        }
+    }
+
+    public static class Ensure
+    {
+        public static void NotNull(object obj)
+        {
+            if(obj == null) {throw new ArgumentException();}
         }
     }
 
@@ -69,8 +83,7 @@ namespace OO.Bootcamp
 
         private double InBaseUnits(double value)
         {
-            if (unit == null) return value*factor;
-            return unit.InBaseUnits(value*factor);
+            return unit?.InBaseUnits(value*factor) ?? value*factor;
         }
 
         public double Convert(double value, ImperialMeasure desiredUnit)

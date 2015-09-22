@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace OO.Bootcamp.Tests
 {
@@ -18,6 +19,8 @@ namespace OO.Bootcamp.Tests
         public void ShouldValidateEquality()
         {
             Assert.AreEqual(oneTeaspoon, oneTeaspoon);
+            Assert.False(oneTeaspoon.Equals(null));
+            Assert.False(oneTeaspoon.Equals(new object()));
         }
 
         [Test]
@@ -35,6 +38,17 @@ namespace OO.Bootcamp.Tests
             Assert.AreEqual(ImperialMeasure.Cup.Amount(2), onePint);
             Assert.AreEqual(ImperialMeasure.Pint.Amount(2), oneQuart);
             Assert.AreEqual(ImperialMeasure.Quart.Amount(4), oneGallon);
+            Assert.AreEqual(ImperialMeasure.Quart.Amount(0.25), ImperialMeasure.Ounce.Amount(8));
+            Assert.AreEqual(ImperialMeasure.Tablespoon.Amount(2/3.0), ImperialMeasure.Teaspoon.Amount(2));
+        }
+
+        [Test]
+        public void ShouldCompareDifferentQuantities()
+        {
+            Assert.That(ImperialMeasure.Teaspoon.Amount(1), Is.LessThan(ImperialMeasure.Teaspoon.Amount(2)));
+            Assert.That(ImperialMeasure.Teaspoon.Amount(1), Is.LessThan(ImperialMeasure.Tablespoon.Amount(1)));
+            Assert.That(ImperialMeasure.Pint.Amount(0.5), Is.GreaterThan(ImperialMeasure.Ounce.Amount(7)));
+            Assert.Throws<ArgumentException>(() => ImperialMeasure.Teaspoon.Amount(1).CompareTo(null));
         }
 
         [Test]
