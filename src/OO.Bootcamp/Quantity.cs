@@ -54,6 +54,11 @@ namespace OO.Bootcamp
             return left + (right * -1);
         }
 
+        public static Quantity operator -(Quantity original)
+        {
+            return original * -1;
+        }
+
         public static Quantity operator *(Quantity left, double factor)
         {
             return new Quantity(left.amount * factor, left.unitOfMeasurement);
@@ -67,48 +72,6 @@ namespace OO.Bootcamp
         public override string ToString()
         {
             return $"Quantity: {amount} {unitOfMeasurement}";
-        }
-    }
-
-    public static class Ensure
-    {
-        public static void NotNull(object obj)
-        {
-            if(obj == null) {throw new ArgumentException();}
-        }
-    }
-
-    public class ImperialMeasure
-    {
-        private readonly int factor;
-        private readonly ImperialMeasure unit;
-        public static readonly ImperialMeasure Teaspoon = new ImperialMeasure(1, Teaspoon);
-        public static readonly ImperialMeasure Tablespoon = new ImperialMeasure(3, Teaspoon);
-        public static readonly ImperialMeasure Ounce = new ImperialMeasure(2, Tablespoon);
-        public static readonly ImperialMeasure Cup = new ImperialMeasure(8, Ounce);
-        public static readonly ImperialMeasure Pint = new ImperialMeasure(2, Cup);
-        public static readonly ImperialMeasure Quart = new ImperialMeasure(2, Pint);
-        public static readonly ImperialMeasure Gallon = new ImperialMeasure(4, Quart);
-
-        public ImperialMeasure(int factor, ImperialMeasure unit)
-        {
-            this.factor = factor;
-            this.unit = unit;
-        }
-
-        public Quantity Amount(double value)
-        {
-            return new Quantity(value, this);
-        }
-
-        private double InBaseUnits(double value)
-        {
-            return unit?.InBaseUnits(value*factor) ?? value*factor;
-        }
-
-        public double Convert(double value, ImperialMeasure desiredUnit)
-        {
-            return InBaseUnits(value)/desiredUnit.InBaseUnits(1);
         }
     }
 }

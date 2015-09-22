@@ -70,6 +70,7 @@ namespace OO.Bootcamp.Tests
             Assert.AreEqual(oneTablespoon - oneTeaspoon, ImperialMeasure.Teaspoon.Amount(2));
             Assert.AreEqual(ImperialMeasure.Pint.Amount(0.25) - oneOunce, ImperialMeasure.Ounce.Amount(3));
             Assert.AreEqual(ImperialMeasure.Teaspoon.Amount(2) - ImperialMeasure.Tablespoon.Amount(2), ImperialMeasure.Teaspoon.Amount(-4));
+            Assert.AreEqual(-oneTablespoon, ImperialMeasure.Tablespoon.Amount(-1));
         }
 
         [Test]
