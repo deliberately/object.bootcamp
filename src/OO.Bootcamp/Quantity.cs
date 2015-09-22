@@ -7,9 +7,9 @@ namespace OO.Bootcamp
     {
         private const double DoubleComparisonTolerance = 0.000001;
         private readonly double amount;
-        private readonly ImperialMeasure unitOfMeasurement;
+        private readonly Unit unitOfMeasurement;
 
-        public Quantity(double amount, ImperialMeasure unitOfMeasurement)
+        public Quantity(double amount, Unit unitOfMeasurement)
         {
             this.amount = amount;
             this.unitOfMeasurement = unitOfMeasurement;
@@ -33,7 +33,7 @@ namespace OO.Bootcamp
             return amount.GetHashCode() ^ unitOfMeasurement.GetHashCode();
         }
 
-        public Quantity In(ImperialMeasure desiredUnit)
+        public Quantity In(Unit desiredUnit)
         {
             return new Quantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
         }
@@ -46,7 +46,13 @@ namespace OO.Bootcamp
 
         public static Quantity operator +(Quantity left, Quantity right)
         {
+            EnsureSameUnitTypes(left, right);
             return new Quantity(left.amount + right.In(left.unitOfMeasurement).amount, left.unitOfMeasurement);
+        }
+
+        private static void EnsureSameUnitTypes(Quantity left, Quantity right)
+        {
+            if(left.unitOfMeasurement.IsDifferentUnitType(right.unitOfMeasurement)) throw new DifferentUnitTypeException();
         }
 
         public static Quantity operator -(Quantity left, Quantity right)
@@ -73,5 +79,10 @@ namespace OO.Bootcamp
         {
             return $"Quantity: {amount} {unitOfMeasurement}";
         }
+    }
+
+    public class DifferentUnitTypeException : Exception
+    {
+        
     }
 }
