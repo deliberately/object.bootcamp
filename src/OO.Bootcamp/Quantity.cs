@@ -44,6 +44,26 @@ namespace OO.Bootcamp
             return amount.CompareTo(other.In(this.unitOfMeasurement).amount);
         }
 
+        public static Quantity operator +(Quantity left, Quantity right)
+        {
+            return new Quantity(left.amount + right.In(left.unitOfMeasurement).amount, left.unitOfMeasurement);
+        }
+
+        public static Quantity operator -(Quantity left, Quantity right)
+        {
+            return left + (right * -1);
+        }
+
+        public static Quantity operator *(Quantity left, double factor)
+        {
+            return new Quantity(left.amount * factor, left.unitOfMeasurement);
+        }
+
+        public static Quantity operator /(Quantity left, double factor)
+        {
+            return new Quantity(left.amount / factor, left.unitOfMeasurement);
+        }
+
         public override string ToString()
         {
             return $"Quantity: {amount} {unitOfMeasurement}";

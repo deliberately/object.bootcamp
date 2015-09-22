@@ -56,5 +56,34 @@ namespace OO.Bootcamp.Tests
         {
             Assert.AreEqual(ImperialMeasure.Tablespoon.Amount(12).In(ImperialMeasure.Cup), ImperialMeasure.Cup.Amount(0.75));
         }
+
+        [Test]
+        public void ShouldAddQuantitiesTogether()
+        {
+            Assert.AreEqual(oneTeaspoon + oneTeaspoon, ImperialMeasure.Teaspoon.Amount(2));
+            Assert.AreEqual(oneTeaspoon + oneTablespoon, ImperialMeasure.Ounce.Amount(2/3.0));
+        }
+
+        [Test]
+        public void ShouldSubtractQuantitiesFromOneAnother()
+        {
+            Assert.AreEqual(oneTablespoon - oneTeaspoon, ImperialMeasure.Teaspoon.Amount(2));
+            Assert.AreEqual(ImperialMeasure.Pint.Amount(0.25) - oneOunce, ImperialMeasure.Ounce.Amount(3));
+            Assert.AreEqual(ImperialMeasure.Teaspoon.Amount(2) - ImperialMeasure.Tablespoon.Amount(2), ImperialMeasure.Teaspoon.Amount(-4));
+        }
+
+        [Test]
+        public void ShouldMultiplyQuantities()
+        {
+            Assert.AreEqual(oneTablespoon * 2, ImperialMeasure.Tablespoon.Amount(2));
+            Assert.AreEqual(ImperialMeasure.Cup.Amount(3) * (2/3.0), onePint);
+        }
+
+        [Test]
+        public void ShouldDivideQuantities()
+        {
+            Assert.AreEqual(oneTablespoon / 1, oneTablespoon);
+            Assert.AreEqual(oneTablespoon / 3, oneTeaspoon);
+        }
     }
 }
