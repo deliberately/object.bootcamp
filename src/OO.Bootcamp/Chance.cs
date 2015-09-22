@@ -2,7 +2,7 @@
 
 namespace OO.Bootcamp
 {
-    // Understands the chance of something happening
+    // Understands the likelihood of something happening
     public class Chance
     {
         private const double DoubleTolerance = 0.00001;

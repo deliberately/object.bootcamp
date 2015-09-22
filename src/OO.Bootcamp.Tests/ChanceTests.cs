@@ -2,7 +2,7 @@
 
 namespace OO.Bootcamp.Tests
 {
-    // Understands the probability of an event occurring
+    // Understands the correct behaviour of Chance
     [TestFixture]
     public class ChanceTests
     {
