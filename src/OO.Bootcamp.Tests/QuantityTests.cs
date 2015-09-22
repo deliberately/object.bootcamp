@@ -36,5 +36,11 @@ namespace OO.Bootcamp.Tests
             Assert.AreEqual(ImperialMeasure.Pint.Amount(2), oneQuart);
             Assert.AreEqual(ImperialMeasure.Quart.Amount(4), oneGallon);
         }
+
+        [Test]
+        public void ShouldConvertToDifferentUnits()
+        {
+            Assert.AreEqual(ImperialMeasure.Tablespoon.Amount(12).In(ImperialMeasure.Cup), ImperialMeasure.Cup.Amount(0.75));
+        }
     }
 }

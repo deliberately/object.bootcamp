@@ -1,14 +1,17 @@
+using System;
+
 namespace OO.Bootcamp
 {
     // Understands the relationship between an amount and units of measurement
     public class Quantity
     {
-        private readonly int value;
+        private const double DoubleComparisonTolerance = 0.000001;
+        private readonly double amount;
         private readonly ImperialMeasure unitOfMeasurement;
 
-        public Quantity(int value, ImperialMeasure unitOfMeasurement)
+        public Quantity(double amount, ImperialMeasure unitOfMeasurement)
         {
-            this.value = value;
+            this.amount = amount;
             this.unitOfMeasurement = unitOfMeasurement;
         }
 
@@ -21,17 +24,23 @@ namespace OO.Bootcamp
         {
             if (ReferenceEquals(this, null)) { return false; }
 
-            return this.Resolve() == other.Resolve();
-        }
-
-        private int Resolve()
-        {
-            return unitOfMeasurement.InBaseUnits(value);
+            var convertedQuantity = other.In(this.unitOfMeasurement);
+            return Math.Abs(this.amount - convertedQuantity.amount) < DoubleComparisonTolerance && this.unitOfMeasurement == convertedQuantity.unitOfMeasurement;
         }
 
         public override int GetHashCode()
         {
-            return value.GetHashCode() ^ unitOfMeasurement.GetHashCode();
+            return amount.GetHashCode() ^ unitOfMeasurement.GetHashCode();
+        }
+
+        public Quantity In(ImperialMeasure desiredUnit)
+        {
+            return new Quantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Quantity: {0}", amount);
         }
     }
 
@@ -53,15 +62,20 @@ namespace OO.Bootcamp
             this.unit = unit;
         }
 
-        public Quantity Amount(int value)
+        public Quantity Amount(double value)
         {
             return new Quantity(value, this);
         }
 
-        public int InBaseUnits(int value)
+        private double InBaseUnits(double value)
         {
             if (unit == null) return value*factor;
             return unit.InBaseUnits(value*factor);
+        }
+
+        public double Convert(double value, ImperialMeasure desiredUnit)
+        {
+            return InBaseUnits(value)/desiredUnit.InBaseUnits(1);
         }
     }
 }
