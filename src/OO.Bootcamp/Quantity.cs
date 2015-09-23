@@ -22,7 +22,7 @@ namespace OO.Bootcamp
 
         public bool Equals(Quantity other)
         {
-            if (ReferenceEquals(other, null)) { return false; }
+            if (ReferenceEquals(other, null) || this.unitOfMeasurement.IsIncompatibleWith(other.unitOfMeasurement)) { return false; }
 
             var convertedQuantity = other.In(this.unitOfMeasurement);
             return Math.Abs(this.amount - convertedQuantity.amount) < DoubleComparisonTolerance && this.unitOfMeasurement == convertedQuantity.unitOfMeasurement;
@@ -35,6 +35,7 @@ namespace OO.Bootcamp
 
         public Quantity In(Unit desiredUnit)
         {
+            EnsureSameUnitTypes(unitOfMeasurement, desiredUnit);
             return new Quantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
         }
 
@@ -44,15 +45,15 @@ namespace OO.Bootcamp
             return amount.CompareTo(other.In(this.unitOfMeasurement).amount);
         }
 
-        public static Quantity operator +(Quantity left, Quantity right)
+        private static void EnsureSameUnitTypes(Unit leftUnit, Unit rightUnit)
         {
-            EnsureSameUnitTypes(left, right);
-            return new Quantity(left.amount + right.In(left.unitOfMeasurement).amount, left.unitOfMeasurement);
+            if(leftUnit.IsIncompatibleWith(rightUnit)) throw new IncompatibleUnitsException();
         }
 
-        private static void EnsureSameUnitTypes(Quantity left, Quantity right)
+        public static Quantity operator +(Quantity left, Quantity right)
         {
-            if(left.unitOfMeasurement.IsDifferentUnitType(right.unitOfMeasurement)) throw new DifferentUnitTypeException();
+            EnsureSameUnitTypes(left.unitOfMeasurement, right.unitOfMeasurement);
+            return new Quantity(left.amount + right.In(left.unitOfMeasurement).amount, left.unitOfMeasurement);
         }
 
         public static Quantity operator -(Quantity left, Quantity right)
@@ -81,7 +82,7 @@ namespace OO.Bootcamp
         }
     }
 
-    public class DifferentUnitTypeException : Exception
+    public class IncompatibleUnitsException : Exception
     {
         
     }

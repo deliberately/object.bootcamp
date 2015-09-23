@@ -51,7 +51,7 @@ namespace OO.Bootcamp
             return InBaseUnits(value - offset) / desiredUnit.InBaseUnits(1) + desiredUnit.offset;
         }
 
-        public bool IsDifferentUnitType(Unit other)
+        public bool IsIncompatibleWith(Unit other)
         {
             return !this.unitType.Equals(other.unitType);
         }

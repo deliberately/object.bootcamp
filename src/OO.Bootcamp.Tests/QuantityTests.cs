@@ -60,9 +60,15 @@ namespace OO.Bootcamp.Tests
         }
 
         [Test]
+        public void ShouldDetermineInequalityBetweenDifferentUnitTypes()
+        {
+            Assert.False(oneTeaspoon.Equals(Unit.Inch.Amount(1)));
+        }
+
+        [Test]
         public void ShouldPreventAdditionOfQuantitiesWithDifferentUnitTypes()
         {
-            Assert.That(() => oneTeaspoon + Unit.Feet.Amount(1), Throws.TypeOf<DifferentUnitTypeException>());
+            Assert.That(() => oneTeaspoon + Unit.Feet.Amount(1), Throws.TypeOf<IncompatibleUnitsException>());
         }
 
         [Test]
@@ -108,6 +114,12 @@ namespace OO.Bootcamp.Tests
         {
             Assert.AreEqual(oneTablespoon / 1, oneTablespoon);
             Assert.AreEqual(oneTablespoon / 3, oneTeaspoon);
+        }
+
+        [Test]
+        public void ShouldPreventConversionToUnitOfADifferentType()
+        {
+            Assert.Throws<IncompatibleUnitsException>(() => oneTeaspoon.In(Unit.Celsius));
         }
     }
 }
