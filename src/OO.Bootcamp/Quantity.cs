@@ -3,13 +3,13 @@ using System;
 namespace OO.Bootcamp
 {
     // Understands the relationship between an amount and units of measurement
-    public class Quantity : IComparable<Quantity>
+    public class IntervalQuantity : IComparable<IntervalQuantity>
     {
         private const double DoubleComparisonTolerance = 0.000001;
-        private readonly double amount;
-        private readonly Unit unitOfMeasurement;
+        protected readonly double amount;
+        protected readonly Unit unitOfMeasurement;
 
-        public Quantity(double amount, Unit unitOfMeasurement)
+        public IntervalQuantity(double amount, Unit unitOfMeasurement)
         {
             this.amount = amount;
             this.unitOfMeasurement = unitOfMeasurement;
@@ -17,10 +17,10 @@ namespace OO.Bootcamp
 
         public override bool Equals(object other)
         {
-            return ReferenceEquals(this, other) || Equals(other as Quantity);
+            return ReferenceEquals(this, other) || Equals(other as IntervalQuantity);
         }
 
-        public bool Equals(Quantity other)
+        public bool Equals(IntervalQuantity other)
         {
             if (ReferenceEquals(other, null) || this.unitOfMeasurement.IsIncompatibleWith(other.unitOfMeasurement)) { return false; }
 
@@ -33,52 +33,67 @@ namespace OO.Bootcamp
             return amount.GetHashCode() ^ unitOfMeasurement.GetHashCode();
         }
 
-        public Quantity In(Unit desiredUnit)
+        public IntervalQuantity In(Unit desiredUnit)
         {
             EnsureSameUnitTypes(unitOfMeasurement, desiredUnit);
-            return new Quantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
+            return new IntervalQuantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
         }
 
-        public int CompareTo(Quantity other)
+        public int CompareTo(IntervalQuantity other)
         {
             Ensure.NotNull(other);
             return amount.CompareTo(other.In(this.unitOfMeasurement).amount);
         }
 
-        private static void EnsureSameUnitTypes(Unit leftUnit, Unit rightUnit)
+        protected static void EnsureSameUnitTypes(Unit leftUnit, Unit rightUnit)
         {
             if(leftUnit.IsIncompatibleWith(rightUnit)) throw new IncompatibleUnitsException();
         }
 
-        public static Quantity operator +(Quantity left, Quantity right)
-        {
-            EnsureSameUnitTypes(left.unitOfMeasurement, right.unitOfMeasurement);
-            return new Quantity(left.amount + right.In(left.unitOfMeasurement).amount, left.unitOfMeasurement);
-        }
-
-        public static Quantity operator -(Quantity left, Quantity right)
-        {
-            return left + (right * -1);
-        }
-
-        public static Quantity operator -(Quantity original)
-        {
-            return original * -1;
-        }
-
-        public static Quantity operator *(Quantity left, double factor)
-        {
-            return new Quantity(left.amount * factor, left.unitOfMeasurement);
-        }
-
-        public static Quantity operator /(Quantity left, double factor)
-        {
-            return new Quantity(left.amount / factor, left.unitOfMeasurement);
-        }
+        
 
         public override string ToString()
         {
             return $"{amount} {unitOfMeasurement}";
+        }
+    }
+
+    public class RatioQuantity : IntervalQuantity
+    {
+        public RatioQuantity(double amount, Unit unitOfMeasurement) : base(amount, unitOfMeasurement)
+        {
+        }
+
+        public RatioQuantity In(Unit desiredUnit)
+        {
+            EnsureSameUnitTypes(unitOfMeasurement, desiredUnit);
+            return new RatioQuantity(unitOfMeasurement.Convert(amount, desiredUnit), desiredUnit);
+        }
+
+        public static RatioQuantity operator +(RatioQuantity left, RatioQuantity right)
+        {
+            EnsureSameUnitTypes(left.unitOfMeasurement, right.unitOfMeasurement);
+            return new RatioQuantity(left.amount + right.In(left.unitOfMeasurement).amount, left.unitOfMeasurement);
+        }
+
+        public static RatioQuantity operator -(RatioQuantity left, RatioQuantity right)
+        {
+            return left + (right * -1);
+        }
+
+        public static RatioQuantity operator -(RatioQuantity original)
+        {
+            return original * -1;
+        }
+
+        public static RatioQuantity operator *(RatioQuantity left, double factor)
+        {
+            return new RatioQuantity(left.amount * factor, left.unitOfMeasurement);
+        }
+
+        public static RatioQuantity operator /(RatioQuantity left, double factor)
+        {
+            return new RatioQuantity(left.amount / factor, left.unitOfMeasurement);
         }
     }
 
