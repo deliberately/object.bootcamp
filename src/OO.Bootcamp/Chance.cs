@@ -3,7 +3,7 @@
 namespace OO.Bootcamp
 {
     // Understands the likelihood of something happening
-    public class Chance
+    public class Chance : IComparable<Chance>
     {
         private const double DoubleTolerance = 0.00001;
         private readonly double fraction;
@@ -33,6 +33,11 @@ namespace OO.Bootcamp
              ** <see>https://en.wikipedia.org/wiki/De_Morgan%27s_laws</see> 
              **/
             return this.Not.And(other.Not).Not; 
+        }
+
+        public int CompareTo(Chance other)
+        {
+            return fraction.CompareTo(other.fraction);
         }
 
         public override string ToString()

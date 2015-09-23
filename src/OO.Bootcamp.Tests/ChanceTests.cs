@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace OO.Bootcamp.Tests
 {
@@ -52,6 +53,15 @@ namespace OO.Bootcamp.Tests
         public void ShouldDetermineChanceOfOneOrAnotherEventOccuring()
         {
             Assert.AreEqual(oneInFour.Or(oneInFour), new Chance(0.4375));
+        }
+
+        [Test]
+        public void ShouldBeAbleToCompareDifferentChances()
+        {
+            Assert.That(oneInFour.CompareTo(threeInFour), Is.EqualTo(-1));
+            Assert.That(oneInFour.CompareTo(oneInFour), Is.EqualTo(0));
+            Assert.That(threeInFour.CompareTo(oneInFour), Is.EqualTo(1));
+            Assert.That(new []{oneInFour, oneInTwo, threeInFour}.Max(), Is.EqualTo(threeInFour));
         }
     }
 
