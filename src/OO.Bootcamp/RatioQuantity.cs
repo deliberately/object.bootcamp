@@ -20,7 +20,7 @@
 
         public static RatioQuantity operator -(RatioQuantity left, RatioQuantity right)
         {
-            return left + (right * -1);
+            return left + (-right);
         }
 
         public static RatioQuantity operator -(RatioQuantity original)
