@@ -78,7 +78,7 @@ namespace OO.Bootcamp
 
         public override string ToString()
         {
-            return $"Quantity: {amount} {unitOfMeasurement}";
+            return $"{amount} {unitOfMeasurement}";
         }
     }
 

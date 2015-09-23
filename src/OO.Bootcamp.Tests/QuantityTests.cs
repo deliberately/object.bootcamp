@@ -121,5 +121,12 @@ namespace OO.Bootcamp.Tests
         {
             Assert.Throws<IncompatibleUnitsException>(() => oneTeaspoon.In(Unit.Celsius));
         }
+
+        [Test]
+        public void ShouldPrintAmountAndUnitOfAQuantity()
+        {
+            Assert.That(oneTeaspoon.ToString(), Is.EqualTo("1 tsp"));
+            Assert.That(oneTablespoon.ToString(), Is.EqualTo("1 tbsp"));
+        }
     }
 }
