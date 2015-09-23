@@ -43,11 +43,20 @@ namespace OO.Bootcamp.Tests
         }
 
         [Test]
-        public void ShouldDetermineEqualityForUnitUnits()
+        public void ShouldDetermineEqualityForDistanceUnits()
         {
             Assert.That(Unit.Inch.Amount(12), Is.EqualTo(Unit.Feet.Amount(1)));
             Assert.That(Unit.Feet.Amount(12), Is.EqualTo(Unit.Yard.Amount(4)));
             Assert.That(Unit.Yard.Amount(3520), Is.EqualTo(Unit.Mile.Amount(2)));
+        }
+
+        [Test]
+        public void ShouldDeterminEqualityForDifferentTemperatures()
+        {
+            Assert.That(Unit.Celsius.Amount(-40), Is.EqualTo(Unit.Fahrenheit.Amount(-40)));
+            Assert.That(Unit.Celsius.Amount(0), Is.EqualTo(Unit.Fahrenheit.Amount(32)));
+            Assert.That(Unit.Celsius.Amount(10), Is.EqualTo(Unit.Fahrenheit.Amount(50)));
+            Assert.That(Unit.Celsius.Amount(100), Is.EqualTo(Unit.Fahrenheit.Amount(212)));
         }
 
         [Test]
