@@ -42,6 +42,9 @@
   <ItemGroup>
     <Compile Include="Chance.cs" />
     <Compile Include="Ensure.cs" />
+    <Compile Include="Graphs\ListExtensions.cs" />
+    <Compile Include="Graphs\Node.cs" />
+    <Compile Include="Graphs\NoPathExistsException.cs" />
     <Compile Include="RatioQuantity.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using OO.Bootcamp.Graphs;
 
 namespace OO.Bootcamp.Tests.Graphs
 {
@@ -52,60 +50,6 @@ namespace OO.Bootcamp.Tests.Graphs
         public void ShouldFailWhenAttemptingToReachAnUnreachableNode()
         {
             Assert.Throws<NoPathExistsException>(() => a.HopsTo(b));
-        }
-    }
-
-    public class NoPathExistsException : Exception
-    {
-        
-    }
-    public class Node
-    {
-        private readonly List<Node> neighbours = new List<Node>();
-        private const double NotFound = double.PositiveInfinity;
-
-        public bool CanReach(Node destination)
-        {
-            return HopsTo(destination, new List<Node>()) != NotFound;
-        }
-
-        public int HopsTo(Node destination)
-        {
-            var result = HopsTo(destination, new List<Node>());
-            if (result.Equals(NotFound))
-            {
-                throw new NoPathExistsException();
-            }
-            return Convert.ToInt32(result);
-        }
-
-        private double HopsTo(Node destination, List<Node> visitedNodes)
-        {
-            if (Equals(destination)) return 0;
-            if (visitedNodes.Contains((this))) return NotFound;
-            visitedNodes.Add(this);
-            var validHops = neighbours.Select(n => n.HopsTo(destination, visitedNodes.Copy()) + 1).ToList();
-            return validHops.Any() ? validHops.Min() : NotFound;
-        }
-
-        public Node LinkTo(Node neighbour)
-        {
-            neighbours.Add(neighbour);
-            return neighbour;
-        }
-    }
-
-    public static class ListExtensions
-    {
-        public static List<T> With<T>(this List<T> list, T item)
-        {
-            list.Add(item);
-            return list;
-        }
-
-        public static List<T> Copy<T>(this List<T> list)
-        {
-            return new List<T>(list);
         }
     }
 }
