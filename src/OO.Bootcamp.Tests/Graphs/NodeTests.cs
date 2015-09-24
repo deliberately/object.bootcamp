@@ -17,10 +17,10 @@ namespace OO.Bootcamp.Tests.Graphs
         [SetUp]
         public void Setup()
         {
-            b.LinkTo(a);
-            b.LinkTo(c).LinkTo(d).LinkTo(e).LinkTo(b).LinkTo(f);
-            c.LinkTo(e);
-            c.LinkTo(d);
+            b.LinkTo(a, 6);
+            b.LinkTo(c, 5).LinkTo(d, 2).LinkTo(e, 3).LinkTo(b, 4).LinkTo(f, 7);
+            c.LinkTo(e, 8);
+            c.LinkTo(d, 1);
         }
 
         [Test]
@@ -51,6 +51,17 @@ namespace OO.Bootcamp.Tests.Graphs
         public void ShouldFailWhenAttemptingToReachAnUnreachableNode()
         {
             Assert.Throws<NoPathExistsException>(() => a.HopsTo(b));
+            Assert.Throws<NoPathExistsException>(() => a.WeightedPathTo(b));
+        }
+
+        [Test]
+        public void ShouldCalculateWeightOfPath()
+        {
+            Assert.That(b.WeightedPathTo(b), Is.EqualTo(0));
+            Assert.That(b.WeightedPathTo(a), Is.EqualTo(6));
+            Assert.That(b.WeightedPathTo(e), Is.EqualTo(9));
+            Assert.That(b.WeightedPathTo(f), Is.EqualTo(7));
+            Assert.That(c.WeightedPathTo(f), Is.EqualTo(15));
         }
     }
 }
