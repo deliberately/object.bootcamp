@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChanceTests.cs" />
+    <Compile Include="Graphs\NodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuantityTests.cs" />
   </ItemGroup>
