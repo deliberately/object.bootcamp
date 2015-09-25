@@ -44,6 +44,7 @@ namespace OO.Bootcamp.Tests.Graphs
             Assert.That(b.HopsTo(a), Is.EqualTo(1));
             Assert.That(c.HopsTo(e), Is.EqualTo(1));
             Assert.That(c.HopsTo(f), Is.EqualTo(3));
+            Assert.That(b.HopsTo(f), Is.EqualTo(1));
         }
 
         [Test]
