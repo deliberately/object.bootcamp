@@ -63,5 +63,15 @@ namespace OO.Bootcamp.Tests.Graphs
             Assert.That(b.WeightedPathTo(f), Is.EqualTo(7));
             Assert.That(c.WeightedPathTo(f), Is.EqualTo(15));
         }
+
+        [Test]
+        public void ShouldCalculatePathToANode()
+        {
+            Assert.That(b.PathTo(b).Cost, Is.EqualTo(0));
+            Assert.That(b.PathTo(a).Cost, Is.EqualTo(6));
+            Assert.That(b.PathTo(e).Cost, Is.EqualTo(9));
+            Assert.That(b.PathTo(f).Cost, Is.EqualTo(7));
+            Assert.That(c.PathTo(f).Cost, Is.EqualTo(15));
+        }
     }
 }
