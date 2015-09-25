@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OO.Bootcamp.Graphs
 {
@@ -8,6 +9,13 @@ namespace OO.Bootcamp.Graphs
         {
             list.Add(item);
             return list;
+        }
+
+        public static T Minimum<T>(this List<T> list, IComparer<T> comparer)
+        {
+            var copy = new List<T>(list);
+            copy.Sort(comparer);
+            return copy.First();
         }
 
         public static List<T> Copy<T>(this List<T> list)

@@ -8,9 +8,6 @@ namespace OO.Bootcamp.Graphs
     // Understands its neighbours
     public class Node
     {
-        private static readonly Func<int, int> HopCountStrategy = cost => 1;
-        private const double NotFound = double.PositiveInfinity;
-
         private readonly List<Edge> edges = new List<Edge>();
 
         public Node LinkTo(Node neighbour, int cost)
@@ -21,28 +18,27 @@ namespace OO.Bootcamp.Graphs
 
         public bool CanReach(Node destination)
         {
-            return !double.IsPositiveInfinity(CalculateCostTo(destination, new List<Node>(), HopCountStrategy));
+            return !NoPath.Possible.Equals(PathTo(destination, new List<Node>(), ActualPath.CostStrategy));
         }
 
-        public int HopsTo(Node destination)
-        {
-            var result = CalculateCostTo(destination, new List<Node>(), HopCountStrategy);
-            if (result.Equals(NotFound))
-            {
-                throw new NoPathExistsException();
-            }
-
-            return Convert.ToInt32(result);
-        }
-
-        public double WeightedPathTo(Node destination)
+        public double CostTo(Node destination)
         {
             return PathTo(destination).Cost;
         }
 
+        public int HopsTo(Node destination)
+        {
+            return PathTo(destination, ActualPath.HopCountStrategy).HopCount;
+        }
+
         public Path PathTo(Node destination)
         {
-            var result = PathTo(destination, new List<Node>());
+            return PathTo(destination, ActualPath.CostStrategy);
+        }
+
+        private Path PathTo(Node destination, IComparer<Path> sortingStrategy)
+        {
+            var result =  PathTo(destination, new List<Node>(), sortingStrategy);
             if (result.Equals(NoPath.Possible))
             {
                 throw new NoPathExistsException();
@@ -50,23 +46,13 @@ namespace OO.Bootcamp.Graphs
             return result;
         }
 
-        private double CalculateCostTo(Node destination, List<Node> visitedNodes, Func<int, int> costStrategy)
-        {
-            if (Equals(destination)) return 0;
-            if (visitedNodes.Contains((this))) return NotFound;
-            visitedNodes.Add(this);
-            var validHops = edges.Select(edge => edge.HopsTo(destination, visitedNodes.Copy(), costStrategy)).ToList();
-            return validHops.Any() ? validHops.Min() : NotFound;
-        }
-
-
-        private Path PathTo(Node destination, List<Node> visitedNodes)
+        private Path PathTo(Node destination, List<Node> visitedNodes, IComparer<Path> sortingStrategy)
         {
             if (Equals(destination)) return new ActualPath();
             if (visitedNodes.Contains((this))) return NoPath.Possible;
             visitedNodes.Add(this);
             var validPaths = edges.Select(edge => edge.PathTo(destination, visitedNodes.Copy())).ToList();
-            return validPaths.Any() ? validPaths.Min() : NoPath.Possible;
+            return validPaths.Any() ? validPaths.Minimum(sortingStrategy) : NoPath.Possible;
         }
 
         public class Edge
@@ -80,14 +66,9 @@ namespace OO.Bootcamp.Graphs
                 this.cost = cost;
             }
 
-            internal double HopsTo(Node destination, List<Node> visitedNodes, Func<int, int> costStrategy)
-            {
-                return node.CalculateCostTo(destination, visitedNodes, costStrategy) + costStrategy(cost);
-            }
-
             internal Path PathTo(Node destination, List<Node> visitedNodes)
             {
-                return node.PathTo(destination, visitedNodes).Add(this);
+                return node.PathTo(destination, visitedNodes, ActualPath.CostStrategy).Add(this);
             }
 
             public static double TotalCost(List<Edge> edges)
@@ -116,10 +97,28 @@ namespace OO.Bootcamp.Graphs
 
         public double Cost { get { return Node.Edge.TotalCost(edges); } }
         public int HopCount { get { return edges.Count; } }
+        public static IComparer<Path> CostStrategy => new CostStrategyComparison();
+        public static IComparer<Path> HopCountStrategy => new HopCountStrategyComparison();
 
         public int CompareTo(Path other)
         {
             return Cost.CompareTo(other.Cost);
+        }
+
+        private class CostStrategyComparison : IComparer<Path>
+        {
+            public int Compare(Path left, Path right)
+            {
+                return left.Cost.CompareTo(right.Cost);
+            }
+        }
+
+        private class HopCountStrategyComparison : IComparer<Path>
+        {
+            public int Compare(Path left, Path right)
+            {
+                return left.HopCount.CompareTo(right.HopCount);
+            }
         }
     }
 

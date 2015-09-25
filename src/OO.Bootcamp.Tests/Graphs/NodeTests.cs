@@ -51,17 +51,17 @@ namespace OO.Bootcamp.Tests.Graphs
         public void ShouldFailWhenAttemptingToReachAnUnreachableNode()
         {
             Assert.Throws<NoPathExistsException>(() => a.HopsTo(b));
-            Assert.Throws<NoPathExistsException>(() => a.WeightedPathTo(b));
+            Assert.Throws<NoPathExistsException>(() => a.CostTo(b));
         }
 
         [Test]
         public void ShouldCalculateWeightOfPath()
         {
-            Assert.That(b.WeightedPathTo(b), Is.EqualTo(0));
-            Assert.That(b.WeightedPathTo(a), Is.EqualTo(6));
-            Assert.That(b.WeightedPathTo(e), Is.EqualTo(9));
-            Assert.That(b.WeightedPathTo(f), Is.EqualTo(7));
-            Assert.That(c.WeightedPathTo(f), Is.EqualTo(15));
+            Assert.That(b.CostTo(b), Is.EqualTo(0));
+            Assert.That(b.CostTo(a), Is.EqualTo(6));
+            Assert.That(b.CostTo(e), Is.EqualTo(9));
+            Assert.That(b.CostTo(f), Is.EqualTo(7));
+            Assert.That(c.CostTo(f), Is.EqualTo(15));
         }
 
         [Test]
